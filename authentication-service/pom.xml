@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>solutions.matusek.microservicesapp</groupId>
-	<artifactId>authentication-password-service</artifactId>
+	<artifactId>authentication-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authentication-password-service</name>
-	<description>Authentication service using username and password</description>
+	<name>authentication-service</name>
+	<description>Authentication service</description>
 
 	<properties>
 		<java.version>11</java.version>
