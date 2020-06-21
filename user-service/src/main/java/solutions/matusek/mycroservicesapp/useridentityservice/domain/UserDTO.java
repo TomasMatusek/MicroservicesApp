@@ -1,4 +1,4 @@
-package solutions.matusek.mycroservicesapp.userservice.domain;
+package solutions.matusek.mycroservicesapp.useridentityservice.domain;
 
 
 import lombok.AllArgsConstructor;

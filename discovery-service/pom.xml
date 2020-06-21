@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>solutions.matusek.microservicesapp</groupId>
-	<artifactId>discovery-service</artifactId>
+	<artifactId>discovery-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>discovery-service</name>
+	<name>discovery-server</name>
 	<description>Service registration and discovery server</description>
 
 	<properties>

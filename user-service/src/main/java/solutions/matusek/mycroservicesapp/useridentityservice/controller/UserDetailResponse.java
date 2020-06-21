@@ -1,8 +1,8 @@
-package solutions.matusek.mycroservicesapp.userservice.controller;
+package solutions.matusek.mycroservicesapp.useridentityservice.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import solutions.matusek.mycroservicesapp.userservice.domain.UserDTO;
+import solutions.matusek.mycroservicesapp.useridentityservice.domain.UserDTO;
 
 @Getter
 @AllArgsConstructor

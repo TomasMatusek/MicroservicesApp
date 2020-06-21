@@ -1,10 +1,10 @@
-package solutions.matusek.mycroservicesapp.userservice;
+package solutions.matusek.microservicesapp.discoveryserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserServiceApplicationTests {
+class DiscoveryServerApplicationTests {
 
 	@Test
 	void contextLoads() {

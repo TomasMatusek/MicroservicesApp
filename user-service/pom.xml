@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>solutions.matusek.microservices-app</groupId>
-	<artifactId>user-service</artifactId>
+	<artifactId>user-identity-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-service</name>
-	<description>User service</description>
+	<name>user-identity-service</name>
+	<description>User identity service managing user's profile, team and groups</description>
 
 	<properties>
 		<java.version>11</java.version>

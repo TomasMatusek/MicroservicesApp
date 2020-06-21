@@ -1,4 +1,4 @@
-package solutions.matusek.mycroservicesapp.userservice.controller;
+package solutions.matusek.mycroservicesapp.useridentityservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
