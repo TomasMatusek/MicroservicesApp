@@ -1,13 +1,11 @@
-package solutions.matusek.microservicesapp.authenticationpasswordservice;
+package solutions.matusek.microservicesapp.authenticationservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthenticationPasswordServiceApplicationTests {
-
+class AuthenticationServiceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
