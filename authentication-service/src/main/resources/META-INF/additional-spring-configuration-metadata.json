@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "solutions.matusek.jwt.issuer",
+      "type": "java.lang.String",
+      "description": "Description for solutions.matusek.jwt.issuer."
+    },
+    {
+      "name": "solutions.matusek.jwt.algorithm",
+      "type": "java.lang.String",
+      "description": "Description for solutions.matusek.jwt.algorithm."
+    },
+    {
+      "name": "solutions.matusek.jwt.keySize",
+      "type": "java.lang.Integer",
+      "description": "Description for solutions.matusek.jwt.keySize."
+    },
+    {
+      "name": "solutions.matusek.jwt.expirationSeconds",
+      "type": "java.lang.Integer",
+      "description": "Description for solutions.matusek.jwt.expirationSeconds."
+    }
+  ]
+}

@@ -9,3 +9,11 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
+
+solutions:
+  matusek:
+    jwt:
+      issuer: "solutions.matusek"
+      algorithm: "RSA"
+      keySize: 2048
+      expirationSeconds: 3600
