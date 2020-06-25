@@ -4,6 +4,21 @@ server:
 spring:
   application:
     name: "user-identity-service"
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  datasource:
+    url: "jdbc:mysql://localhost:3306/microservicesapp_user_service?serverTimezone=UTC"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    username: "root"
+    password: "soonr123"
+  jpa:
+    open-in-view: true
+  flyway:
+    password: "soonr123"
+    user: "root"
+    url: "jdbc:mysql://localhost:3306/microservicesapp_user_service?serverTimezone=UTC"
 
 eureka:
   client:

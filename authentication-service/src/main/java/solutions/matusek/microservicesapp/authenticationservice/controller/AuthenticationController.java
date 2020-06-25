@@ -3,7 +3,7 @@ package solutions.matusek.microservicesapp.authenticationservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import solutions.matusek.microservicesapp.authenticationservice.service.JWTToken;
+import solutions.matusek.microservicesapp.authenticationservice.domain.JWTToken;
 import solutions.matusek.microservicesapp.authenticationservice.service.AuthorizationService;
 
 @RestController
@@ -21,7 +21,7 @@ public class AuthenticationController {
     public ResponseEntity<JWTTokenResponse> usernamePasswordAuthentication(
             @RequestParam(name = "password", defaultValue = "") String password,
             @RequestParam(name = "username", defaultValue = "") String username) {
-        JWTToken jwtToken = authorizationService.authenticate(username, password);
+        JWTToken jwtToken = authorizationService.authenticateUsingPassword(username, password);
         return ResponseEntity.ok(new JWTTokenResponse(jwtToken.getToken()));
     }
 

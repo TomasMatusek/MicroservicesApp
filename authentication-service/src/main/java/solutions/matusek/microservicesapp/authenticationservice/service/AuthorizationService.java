@@ -6,8 +6,14 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import solutions.matusek.microservicesapp.authenticationservice.config.JWTConfig;
+import solutions.matusek.microservicesapp.authenticationservice.controller.UsersListResponse;
+import solutions.matusek.microservicesapp.authenticationservice.domain.JWTToken;
+import solutions.matusek.microservicesapp.authenticationservice.domain.User;
+import solutions.matusek.microservicesapp.authenticationservice.service.exception.InvalidCredentialsException;
 
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
@@ -20,14 +26,22 @@ public class AuthorizationService {
 
     private final JWTConfig jwtConfig;
     private final Algorithm algorithm;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public AuthorizationService(KeyPair keyPair, JWTConfig jwtConfig) {
+    public AuthorizationService(KeyPair keyPair, JWTConfig jwtConfig, RestTemplate restTemplate) {
         this.jwtConfig = jwtConfig;
         this.algorithm = Algorithm.RSA512((RSAPublicKey) keyPair.getPublic(), (RSAPrivateKey) keyPair.getPrivate());
+        this.restTemplate = restTemplate;
     }
 
     public JWTToken authenticateUsingPassword(String username, String password) {
+        if (username == null || password == null || username.isBlank() || password.isBlank()) {
+            throw new InvalidCredentialsException();
+        }
+
+        ResponseEntity<UsersListResponse> response = restTemplate.getForEntity("http://USER-IDENTITY-SERVICE/users?search-by=email&value=" + username, UsersListResponse.class);
+
         return null;
     }
 

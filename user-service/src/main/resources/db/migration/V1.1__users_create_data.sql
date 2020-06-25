@@ -1,0 +1,2 @@
+INSERT INTO users (id, email) VALUES ('743ab6b6-b6d7-11ea-b3de-0242ac130004', 'admin.user@server.com');
+INSERT INTO users (id, email) VALUES ('a39b6748-af7a-402a-93b0-05a106150130', 'member.user@server.com');
