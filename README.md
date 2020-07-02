@@ -2,9 +2,12 @@
 Spring boot + microservices app.
 
 ## TODO
+- Pre-generate key pair instead of generating new each time authentication service is starting
+- Use git-secret or other alternative to encrypt DB connections and certificates
+- Push public key to other services when authentication service is starting
 
-## List of idea
-###authentication-service
+## NOTES
+### authentication-service
 
 Q: Use key pairs ? Or shared secret to generate and verify JWT tokens ? \
 A: Use certificate pairs

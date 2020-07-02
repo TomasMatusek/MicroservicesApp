@@ -5,13 +5,12 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@Getter
 @Setter
+@Getter
 @Configuration
-@ConfigurationProperties("solutions.matusek.jwt")
-public class JWTConfig {
-    private String issuer = "unknown";
-    private String algorithm = "RSA";
-    private int keySize = 2048;
-    private int expirationInSeconds = 3600;
+@ConfigurationProperties("solutions.matusek.keyStore")
+public class KeyStoreConfig {
+    private String filePath;
+    private String password;
+    private String type;
 }

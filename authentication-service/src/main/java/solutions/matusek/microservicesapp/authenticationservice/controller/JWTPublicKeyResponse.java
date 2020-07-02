@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class JWTPublicKeyResponse {
+class JWTPublicKeyResponse {
     private final String[] publicKeys;
 }

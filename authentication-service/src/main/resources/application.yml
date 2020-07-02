@@ -17,3 +17,11 @@ solutions:
       algorithm: "RSA"
       keySize: 2048
       expirationSeconds: 3600
+    keyStore:
+      filePath: "/Users/matusek/Workplace/MatusekSolutions/OtherFiles/KeyStore/microservicesapp-keystore"
+      password: "Soonr123"
+      type: "JKS"
+    certificate:
+      alias: "matusek.solutions"
+      password: "aaa111"
+      type: "RSA"

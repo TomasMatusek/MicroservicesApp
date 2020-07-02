@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class JWTTokenResponse {
+class JWTTokenResponse {
     private final String token;
 }

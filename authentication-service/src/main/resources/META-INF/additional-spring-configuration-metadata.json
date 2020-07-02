@@ -3,22 +3,52 @@
     {
       "name": "solutions.matusek.jwt.issuer",
       "type": "java.lang.String",
-      "description": "Description for solutions.matusek.jwt.issuer."
+      "description": "Name of issuer of generated JWT token. Should be domain."
     },
     {
       "name": "solutions.matusek.jwt.algorithm",
       "type": "java.lang.String",
-      "description": "Description for solutions.matusek.jwt.algorithm."
+      "description": "Algorithm used to generate JWT token."
     },
     {
       "name": "solutions.matusek.jwt.keySize",
       "type": "java.lang.Integer",
-      "description": "Description for solutions.matusek.jwt.keySize."
+      "description": "JWT token key size."
     },
     {
       "name": "solutions.matusek.jwt.expirationSeconds",
       "type": "java.lang.Integer",
-      "description": "Description for solutions.matusek.jwt.expirationSeconds."
+      "description": "JWT token expiration in seconds."
+    },
+    {
+      "name": "solutions.matusek.security.shared-secret",
+      "type": "java.lang.String",
+      "description": "Shared secret used during service initialization to push public key to other microservices."
+    },
+    {
+      "name": "solutions.matusek.keyStore.filePath",
+      "type": "java.lang.String",
+      "description": "Path where keystore is located."
+    },
+    {
+      "name": "solutions.matusek.keyStore.password",
+      "type": "java.lang.String",
+      "description": "Keystore is password protected."
+    },
+    {
+      "name": "solutions.matusek.keyStore.type",
+      "type": "java.lang.String",
+      "description": "Type of kye store format, e.g.: JKS."
+    },
+    {
+      "name": "solutions.matusek.certificate.alias",
+      "type": "java.lang.String",
+      "description": "Alias for key pair used to encrypt / decrypt protected data from database."
+    },
+    {
+      "name": "solutions.matusek.certificate.password",
+      "type": "java.lang.String",
+      "description": "Certificate is password protected."
     }
   ]
 }
