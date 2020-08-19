@@ -24,12 +24,14 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JWTService {
 
+    /*
+
     private final JWTConfig jwtConfig;
     private final Algorithm algorithm;
-    private final RSAPublicKey publicKey;
     private final RestTemplate restTemplate;
+    private final EncryptionService;
 
-    /*
+
 
     read key from database if does not exists crete new
 
@@ -75,10 +77,10 @@ public class JWTService {
             throw new BeanInitializationException(String.format("Failed to generate key pair using %s algorithm with key size of %s bits", jwtConfig.getAlgorithm(), jwtConfig.getKeySize()));
         }
     }
-     */
+
 
     @Autowired
-    public JWTService(KeyPair keyPair, JWTConfig jwtConfig, RestTemplate restTemplate) {
+    public JWTService(EncryptionService encryptionService, JWTConfig jwtConfig, RestTemplate restTemplate) {
         this.jwtConfig = jwtConfig;
         this.algorithm = Algorithm.RSA512((RSAPublicKey) keyPair.getPublic(), (RSAPrivateKey) keyPair.getPrivate());
         this.publicKey = (RSAPublicKey) keyPair.getPublic();
@@ -153,4 +155,6 @@ public class JWTService {
     public JWTConfig getJwtConfig () {
         return jwtConfig;
     }
+
+     */
 }

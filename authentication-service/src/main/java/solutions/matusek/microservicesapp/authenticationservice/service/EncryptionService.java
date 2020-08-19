@@ -23,7 +23,7 @@ import java.util.Arrays;
  * Reading and writing of keys from database using keystore pair.
  */
 @Service
-public class EncryptionKeysService implements IEncryptionService {
+public class EncryptionService implements IEncryptionService {
 
     private PublicKey publicKey;
     private PrivateKey privateKey;
@@ -34,7 +34,7 @@ public class EncryptionKeysService implements IEncryptionService {
     private static final String CIPHER_TRANSFORMATION = "AES/ECB/PKCS5Padding";
 
     @Autowired
-    public EncryptionKeysService(KeyStoreConfig keyStoreConfig, CertificateConfig certificateConfig) {
+    public EncryptionService(KeyStoreConfig keyStoreConfig, CertificateConfig certificateConfig) {
         this.keyStoreConfig = keyStoreConfig;
         this.certificateConfig = certificateConfig;
     }
@@ -50,7 +50,7 @@ public class EncryptionKeysService implements IEncryptionService {
             publicKey = keyStore.getCertificate(certificateConfig.getAlias()).getPublicKey();
             privateKey = (PrivateKey) keyStore.getKey(certificateConfig.getAlias(), certificateConfig.getPassword().toCharArray());
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException | UnrecoverableKeyException e) {
-            throw new BeanInitializationException("Failed to initialize key store.", e);
+            throw new BeanInitializationException(String.format("Failed to initialize key store. %s %s", keyStoreConfig, certificateConfig), e);
         }
     }
 
@@ -64,11 +64,11 @@ public class EncryptionKeysService implements IEncryptionService {
     public String encryptData(String data) {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            SecretKey secretKey = new SecretKeySpec(privateKey.getEncoded(), certificateConfig.getType());
+            SecretKey secretKey = new SecretKeySpec(getPublicKey().getEncoded(), certificateConfig.getType());
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Arrays.toString(cipher.doFinal(data.getBytes()));
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
-            throw new DataEncryptionException("Failed to encrypt data.", e);
+            throw new DataEncryptionException(String.format("Failed to encrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.ENCRYPT_MODE, certificateConfig), e);
         }
     }
 
@@ -83,11 +83,19 @@ public class EncryptionKeysService implements IEncryptionService {
     public String decryptData(String encryptedData) {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            SecretKey secretKey = new SecretKeySpec(privateKey.getEncoded(), certificateConfig.getType());
+            SecretKey secretKey = new SecretKeySpec(getPrivateKey().getEncoded(), certificateConfig.getType());
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return Arrays.toString(cipher.doFinal(encryptedData.getBytes()));
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
-            throw new DataDecryptionException("Failed to decrypt data.", e);
+            throw new DataEncryptionException(String.format("Failed to decrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.DECRYPT_MODE, certificateConfig), e);
         }
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
+
+    private PrivateKey getPrivateKey() {
+        return privateKey;
     }
 }

@@ -1,0 +1,27 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: "authentication-service"
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+
+solutions:
+  matusek:
+    jwt:
+      issuer: "solutions.matusek"
+      algorithm: "RSA"
+      keySize: 2048
+      expirationSeconds: 3600
+    keyStore:
+      filePath: "/Users/matusek/Workplace/MatusekSolutions/MicroservicesApp/authentication-service/src/test/resources/test-keystore"
+      password: "Soonr123"
+      type: "JKS"
+    certificate:
+      alias: "matusek.solutions"
+      password: "aaa111"
+      type: "RSA"
