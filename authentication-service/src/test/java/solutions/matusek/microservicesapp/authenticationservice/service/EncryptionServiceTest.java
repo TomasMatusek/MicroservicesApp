@@ -45,9 +45,25 @@ public class EncryptionServiceTest {
 
     @Test
     public void When_StringIsEncryptedAndDecryptedAgain_Then_StringsMustMatch() {
-        final String text = "test";
+        final String text = "Test123!";
         byte[] encrypted = encryptionService.encrypt(text.getBytes());
         byte[] decrypted = encryptionService.decrypt(encrypted);
         Assertions.assertEquals(text, new String(decrypted));
+    }
+
+    @Test
+    public void When_SameEncodedValueAreBase64Encoded_Then_ExpectedOutputIsSame() {
+        byte[] data = { 18, 43, 61, 25, 127, 43, 12, 41, 52};
+        String attempt1 = EncryptionService.toBase64String(data);
+        String attempt2 = EncryptionService.toBase64String(data);
+        Assertions.assertEquals(attempt1, attempt2);
+    }
+
+    @Test
+    public void When_OriginalValueIsEncodedAndThenDecoded_Then_DataShouldMatchOriginal() {
+        byte[] data = { 18, 43, 61, 25, 127, 43, 12, 41, 52 };
+        String base64EncodedString = EncryptionService.toBase64String(data);
+        byte[] data2 = EncryptionService.fromBase64String(base64EncodedString);
+        Assertions.assertArrayEquals(data, data2);
     }
 }

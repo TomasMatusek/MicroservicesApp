@@ -88,6 +88,24 @@ public class EncryptionService implements IEncryptionService {
         }
     }
 
+    /**
+     * Uses binary-to-text encoding schemes that represent binary data in an ASCII string format.
+     * @param data Raw data.
+     * @return Base64 encoded data in form of string.
+     */
+    public static String toBase64String(byte[] data) {
+        return Base64.toBase64String(data);
+    }
+
+    /**
+     * Uses binary-to-text decoding schemes that represent binary data in an ASCII string format.
+     * @param base64EncodedString String that is Base64 encoded.
+     * @return Raw data.
+     */
+    public static byte[] fromBase64String(String base64EncodedString) {
+        return Base64.decode(base64EncodedString);
+    }
+
     public PublicKey getPublicKey() {
         return publicKey;
     }
