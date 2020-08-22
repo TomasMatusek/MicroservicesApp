@@ -7,24 +7,25 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-// @TODO validate values, like password must be non null, type must be enum of alowed values
-
 @Setter
 @Getter
 @Configuration
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties("solutions.matusek.certificate")
-public class CertificateConfig {
+public class CertificateProperties {
+
     private String alias;
     private String password;
-    private String type;
+    private String algorithm;
+    private int keySize;
 
     @Override
     public String toString() {
-        return "CertificateConfig{" +
+        return "SecretKeyProperties{" +
                 "alias='" + alias + '\'' +
-                ", type='" + type + '\'' +
+                ", algorithm='" + algorithm + '\'' +
+                ", keySize=" + keySize +
                 '}';
     }
 }

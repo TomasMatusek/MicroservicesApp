@@ -1,22 +1,21 @@
 package solutions.matusek.microservicesapp.authenticationservice.service;
 
+import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import solutions.matusek.microservicesapp.authenticationservice.config.CertificateConfig;
-import solutions.matusek.microservicesapp.authenticationservice.config.KeyStoreConfig;
+import solutions.matusek.microservicesapp.authenticationservice.config.CertificateProperties;
+import solutions.matusek.microservicesapp.authenticationservice.config.KeyStoreProperties;
 import solutions.matusek.microservicesapp.authenticationservice.service.exception.DataDecryptionException;
 import solutions.matusek.microservicesapp.authenticationservice.service.exception.DataEncryptionException;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
-import java.util.Arrays;
 
 /**
  * Initialization of KeyStore to get keys used to encrypt / decrypt sensitive data from database.
@@ -28,47 +27,47 @@ public class EncryptionService implements IEncryptionService {
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
-    private final KeyStoreConfig keyStoreConfig;
-    private final CertificateConfig certificateConfig;
+    private final KeyStoreProperties keyStoreProperties;
+    private final CertificateProperties certificateProperties;
 
-    private static final String CIPHER_TRANSFORMATION = "AES/ECB/PKCS5Padding";
+    private static final String CIPHER_TRANSFORMATION = "RSA/ECB/PKCS1Padding";
 
     @Autowired
-    public EncryptionService(KeyStoreConfig keyStoreConfig, CertificateConfig certificateConfig) {
-        this.keyStoreConfig = keyStoreConfig;
-        this.certificateConfig = certificateConfig;
+    public EncryptionService(KeyStoreProperties keyStoreProperties, CertificateProperties certificateProperties) {
+        this.keyStoreProperties = keyStoreProperties;
+        this.certificateProperties = certificateProperties;
     }
 
     @PostConstruct
-    public void init() {
+    void init() {
         try {
             // Init access to key store where key pair for encryption is stored
-            File keyStoreFile = new File(keyStoreConfig.getFilePath());
-            KeyStore keyStore = KeyStore.getInstance(keyStoreConfig.getType());
-            keyStore.load(new FileInputStream(keyStoreFile), keyStoreConfig.getPassword().toCharArray());
-            // Get actual keys
-            publicKey = keyStore.getCertificate(certificateConfig.getAlias()).getPublicKey();
-            privateKey = (PrivateKey) keyStore.getKey(certificateConfig.getAlias(), certificateConfig.getPassword().toCharArray());
+            File keyStoreFile = new File(keyStoreProperties.getFilePath());
+            KeyStore keyStore = KeyStore.getInstance(keyStoreProperties.getType());
+            keyStore.load(new FileInputStream(keyStoreFile), keyStoreProperties.getPassword().toCharArray());
+            // Get actual keys for encryption / decryption
+            publicKey = keyStore.getCertificate(certificateProperties.getAlias()).getPublicKey();
+            privateKey = (PrivateKey) keyStore.getKey(certificateProperties.getAlias(), certificateProperties.getPassword().toCharArray());
         } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException | UnrecoverableKeyException e) {
-            throw new BeanInitializationException(String.format("Failed to initialize key store. %s %s", keyStoreConfig, certificateConfig), e);
+            throw new BeanInitializationException(String.format("Failed to initialize key store. %s %s", keyStoreProperties, certificateProperties), e);
         }
     }
 
     /**
-     * Encrypt given string.
-     * @param data String to be encrypted.
+     * Encrypt given data.
      * @throws DataEncryptionException When encryption failed.
-     * @return Encrypted data in form of string.
      */
     @Override
-    public String encryptData(String data) {
+    public byte[] encrypt(byte[] data) {
+        if (data == null)
+            return new byte[0];
+
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            SecretKey secretKey = new SecretKeySpec(getPublicKey().getEncoded(), certificateConfig.getType());
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Arrays.toString(cipher.doFinal(data.getBytes()));
+            cipher.init(Cipher.PUBLIC_KEY, getPublicKey());
+            return cipher.doFinal(data);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
-            throw new DataEncryptionException(String.format("Failed to encrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.ENCRYPT_MODE, certificateConfig), e);
+            throw new DataEncryptionException(String.format("Failed to encrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.ENCRYPT_MODE, certificateProperties), e);
         }
     }
 
@@ -76,18 +75,16 @@ public class EncryptionService implements IEncryptionService {
      * Decrypt given string.
      * @param encryptedData Data encrypted by encrypt method.
      * @throws DataDecryptionException When decryption failed.
-     * @return Decrypted plan text data
-     * in form of string.
+     * @return Decrypted plan text data in form of string.
      */
     @Override
-    public String decryptData(String encryptedData) {
+    public byte[] decrypt(byte[] encryptedData) {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-            SecretKey secretKey = new SecretKeySpec(getPrivateKey().getEncoded(), certificateConfig.getType());
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return Arrays.toString(cipher.doFinal(encryptedData.getBytes()));
+            cipher.init(Cipher.PRIVATE_KEY, getPrivateKey());
+            return cipher.doFinal(encryptedData);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
-            throw new DataEncryptionException(String.format("Failed to decrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.DECRYPT_MODE, certificateConfig), e);
+            throw new DataEncryptionException(String.format("Failed to decrypt data. Cipher: %s. Mode: %s. Certificate: %s.", CIPHER_TRANSFORMATION, Cipher.DECRYPT_MODE, certificateProperties), e);
         }
     }
 
@@ -97,5 +94,13 @@ public class EncryptionService implements IEncryptionService {
 
     private PrivateKey getPrivateKey() {
         return privateKey;
+    }
+
+    private KeyStoreProperties getKeyStoreConfig() {
+        return keyStoreProperties;
+    }
+
+    private CertificateProperties getCertificateConfig() {
+        return certificateProperties;
     }
 }

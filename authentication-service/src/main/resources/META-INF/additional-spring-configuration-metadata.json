@@ -43,12 +43,22 @@
     {
       "name": "solutions.matusek.certificate.alias",
       "type": "java.lang.String",
-      "description": "Alias for key pair used to encrypt / decrypt protected data from database."
+      "description": "Alias for secret key stored in key store."
     },
     {
       "name": "solutions.matusek.certificate.password",
       "type": "java.lang.String",
-      "description": "Certificate is password protected."
+      "description": "Secret key password."
+    },
+    {
+      "name": "solutions.matusek.certificate.algorithm",
+      "type": "java.lang.String",
+      "description": "Algorithm use to encryption / decryption using secret key."
+    },
+    {
+      "name": "solutions.matusek.certificate.keySize",
+      "type": "java.lang.Integer",
+      "description": "Size of encryption secret key."
     }
   ]
 }

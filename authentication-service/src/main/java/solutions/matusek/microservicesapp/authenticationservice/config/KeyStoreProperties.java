@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties("solutions.matusek.key-store")
-public class KeyStoreConfig {
+public class KeyStoreProperties {
+
     private String filePath;
     private String password;
     private String type;
