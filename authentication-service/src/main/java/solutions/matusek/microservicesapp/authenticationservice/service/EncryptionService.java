@@ -55,6 +55,7 @@ public class EncryptionService implements IEncryptionService {
 
     /**
      * Encrypt given data.
+     * Maximum data encrypted is (2048 bits RSA key / 8 bit) => 256 bytes - 11 bytes for padding = 245 bytes
      * @throws DataEncryptionException When encryption failed.
      */
     @Override

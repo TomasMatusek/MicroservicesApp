@@ -24,4 +24,5 @@ solutions:
     certificate:
       alias: "matusek.solutions"
       password: "aaa111"
-      type: "RSA"
+      algorithm: "RSA"
+      keySize: 2048

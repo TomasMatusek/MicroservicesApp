@@ -9,8 +9,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import solutions.matusek.microservicesapp.authenticationservice.config.CertificateProperties;
 import solutions.matusek.microservicesapp.authenticationservice.config.KeyStoreProperties;
 
-import java.util.Arrays;
-
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
 public class EncryptionServiceTest {
